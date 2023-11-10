@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Welcome to the Dashboard</h1>
+
+        <div class="mt-4">
+            <h2>IP Information</h2>
+            <form method="get" action="/ipinfo" class="form-inline">
+                <input type="text" class="form-control mr-2" name="ip" placeholder="Enter an IP address">
+                <button type="submit" class="btn btn-primary">Get IP Info</button>
+            </form>
+        </div>
+
+        <div class="mt-4">
+            <h2>Phone Information</h2>
+            <form method="get" action="/phoneinfo" class="form-inline">
+                <input type="text" class="form-control mr-2" name="phone_number" placeholder="Enter a phone number">
+                <button type="submit" class="btn btn-primary">Get Phone Info</button>
+            </form>
+        </div>
+
+        {% if ip_data is defined %}
+            <div class="mt-4">
+                <h3>IP Information:</h3>
+                <p>IP Address: {{ ip_data.query }}</p>
+                <p>Country: {{ ip_data.country }}</p>
+                <p>Region: {{ ip_data.regionName }}</p>
+                <p>City: {{ ip_data.city }}</p>
+                <p>ZIP Code: {{ ip_data.zip }}</p>
+                <p>ISP: {{ ip_data.isp }}</p>
+                <p>Organization: {{ ip_data.org }}</p>
+                <p>Time Zone: {{ ip_data.timezone }}</p>
+            </div>
+        {% endif %}
+
+        {% if phone_info is defined %}
+            <div class="mt-4">
+                <h3>Phone Information:</h3>
+                <p>Phone Number: {{ phone_info.phone_number }}</p>
+                <p>Is Valid: {{ phone_info.is_valid }}</p>
+                <p>Is Possible: {{ phone_info.is_possible }}</p>
+                <p>Carrier: {{ phone_info.carrier }}</p>
+                <p>Region: {{ phone_info.region }}</p>
+                <p>Time Zones: {{ phone_info.time_zones | join(', ') }}</p>
+            </div>
+        {% elif phone_error is defined %}
+            <div class="mt-4">
+                <h3>Error:</h3>
+                <p>{{ phone_error }}</p>
+            </div>
+        {% endif %}
+
+        <div class="mt-4">
+            <p><a href="/logout" class="btn btn-danger">Logout</a></p>
+            <p><a href="/admin/view_users" class="btn btn-secondary">View Database</a></p>
+        </div>
+    </div>
+</body>
+</html>
